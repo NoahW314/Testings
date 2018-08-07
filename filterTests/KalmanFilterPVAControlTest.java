@@ -1,12 +1,12 @@
-package filters;
+package filterTests;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import org.jfree.ui.RefineryUtilities;
 
-import filterTests.IndividualAccelerationsFilterTest;
-import filterTests.KalmanFilterPVAControl;
+import filters.Filter;
+import filters.KalmanFilterPVAControl;
 
 public class KalmanFilterPVAControlTest extends IndividualAccelerationsFilterTest<ArrayList<Double>, Filter<ArrayList<Double>>> {
 

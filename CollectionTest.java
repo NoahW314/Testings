@@ -1,16 +1,13 @@
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class CollectionTest {
 
 	public static void main(String[] args) {
-		ArrayList<Boolean> list = new ArrayList<Boolean>(5);
-		list = setDefaultArrayListValue(null, 5);
-		System.out.println(list);
-		list.set(0, true);
-		System.out.println(list);
-		list.set(0, null);
-		System.out.println(list);
+		int[] in = new int[5];
+		System.out.println(in.length);
+		in[0] = 1;
+		System.out.println(in.length);
+		in[4] = 5;
 	}
 	
 	private static <T> ArrayList<T> setDefaultArrayListValue(T defaultValue, int targetNum) {

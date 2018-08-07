@@ -21,15 +21,15 @@ import org.jfree.ui.ApplicationFrame;
 
 import filters.Filter;
 
-public class IndividualAccelerationsFilterTest<D, F extends Filter<D>> extends ApplicationFrame {
-	
-	private static final long serialVersionUID = 6731105177727373158L;
+public class KFTestFilterTest<D, F extends Filter<D>> extends ApplicationFrame {
+
+	private static final long serialVersionUID = 2781530988174234618L;
 	
 	public F filter;
 	public ArrayList<Double[]> filteredAccelerations = new ArrayList<Double[]>();
 	public double[] position;
 
-	public IndividualAccelerationsFilterTest(String title, String chartTitle, F filt, int i) throws IOException {
+	public KFTestFilterTest(String title, String chartTitle, F filt, int i) throws IOException {
 		super(title);
 		filter = filt;
 		JFreeChart chart = ChartFactory.createXYLineChart(
@@ -51,10 +51,10 @@ public class IndividualAccelerationsFilterTest<D, F extends Filter<D>> extends A
 		renderer.setSeriesPaint(0, Color.RED);//filtered accel
 		renderer.setSeriesPaint(1, Color.PINK);//accel 1
 		renderer.setSeriesPaint(2, Color.MAGENTA);//accel 2
-		renderer.setSeriesPaint(3, Color.BLACK);//estimated velocity
-		renderer.setSeriesPaint(4, Color.GRAY);//recorded velocity
-		renderer.setSeriesPaint(5, Color.BLUE);//estimated position
-		renderer.setSeriesPaint(6, Color.DARK_GRAY);//filtered accel integrated to velo
+		renderer.setSeriesPaint(3, Color.BLACK);//estimated position
+		renderer.setSeriesPaint(4, Color.GRAY);//recorded encoder position
+		renderer.setSeriesPaint(5, Color.GREEN);//recorded vuforia position
+		renderer.setSeriesPaint(6, Color.BLUE);//recorded ultrasonic position
 		
 		renderer.setSeriesShapesVisible(0, false);
 		renderer.setSeriesShapesVisible(1, false);
@@ -70,48 +70,54 @@ public class IndividualAccelerationsFilterTest<D, F extends Filter<D>> extends A
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	private XYDataset createDataset(int i) throws IOException {
-		final XYSeries filtAccel = new XYSeries("filtered acceleration");
+		final XYSeries filtAccel = new XYSeries("filt accel");
 		final XYSeries accel1 = new XYSeries("accel1");
 		final XYSeries accel2 = new XYSeries("accel2");
-		final XYSeries estVelo = new XYSeries("estimated velocity");
-		final XYSeries recVelo = new XYSeries("recorded velocity");
-		final XYSeries estPos = new XYSeries("estimated position");
-		final XYSeries intVelo = new XYSeries("intVelo");
+		final XYSeries estPos = new XYSeries("est pose");
+		final XYSeries rEPos = new XYSeries("rec enc pose");
+		final XYSeries rVPos = new XYSeries("rec Vuf pose");
+		final XYSeries rUPos = new XYSeries("rec ultra pose");
 		
-		ArrayList<Double[]> acceleration = parseFile("F:\\TwoAccelVelo.txt");
+		ArrayList<Double[]> acceleration = parseFile("F:\\2A2P.txt");
 		
-		double time = 0;
+		int time = 0;
+		double prevPos = 0;
 		int counter = 0;
 		for(int j = 0; j < acceleration.size(); j++) {
 			Double[] accel = acceleration.get(j);
+			acceleration.get(j)[7]+=prevPos;
 			time+=accel[0];
-			@SuppressWarnings("unchecked")
-			ArrayList<Double> fAVP = (ArrayList<Double>) filter.run(acceleration, counter, i+1);
+			ArrayList<Double> fAVP = null;
+			try{
+				fAVP = (ArrayList<Double>) filter.run(acceleration, counter, i+1);
+			}
+			catch(Exception e) {
+				System.out.println(j);
+				System.out.println(counter);
+				throw e;
+			}
 			filtAccel.add(time, fAVP.get(0));
 			accel1.add(time, accel[1+i]);
 			accel2.add(time, accel[4+i]);
-			estVelo.add(time, fAVP.get(1)/8);
-			recVelo.add(time, accel[7]/8);
 			estPos.add(time, fAVP.get(2)/240);
-			if(j > 0) {
-				intVelo.add(time, time*(fAVP.get(0)+(Double)filtAccel.getY(j-1))/2/8);
-			}
-			else {
-				intVelo.add(time, fAVP.get(0)/8);
-			}
+			rEPos.add(time, accel[7]/240);
+			rVPos.add(time, accel[8]/240);
+			rUPos.add(time, accel[9]/240);
 			
 			counter++;
+			prevPos = fAVP.get(2);
 		}
 		
 		final XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(filtAccel);
 		dataset.addSeries(accel1);
 		dataset.addSeries(accel2);
-		dataset.addSeries(estVelo);
-		dataset.addSeries(recVelo);
 		dataset.addSeries(estPos);
-		dataset.addSeries(intVelo);
+		dataset.addSeries(rEPos);
+		dataset.addSeries(rVPos);
+		dataset.addSeries(rUPos);
 		return dataset;
 	}
 	

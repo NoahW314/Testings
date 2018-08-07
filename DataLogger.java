@@ -7,7 +7,7 @@ import java.io.Writer;
 public class DataLogger {
     private Writer writer;
     private StringBuffer lineBuffer;
-
+    
     public DataLogger (String fileName) {
         String directoryPath    = "F:\\";
         String filePath         = directoryPath+fileName + ".txt";
@@ -41,18 +41,20 @@ public class DataLogger {
         }
     }
 
-    public void addField(String s) {
+    public String addField(String s) {
         if (lineBuffer.length()>0) {
             lineBuffer.append(',');
         }
         lineBuffer.append(s);
+        return lineBuffer.toString();
     }
 
-    public void addField(char c) {
+    public String addField(char c) {
         if (lineBuffer.length()>0) {
             lineBuffer.append(',');
         }
         lineBuffer.append(c);
+        return lineBuffer.toString();
     }
 
     public void addField(boolean b) {
