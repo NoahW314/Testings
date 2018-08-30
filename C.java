@@ -1,9 +1,7 @@
 
-public class C extends B{
-	public C(B b) {
-		super(b.b);
-	}
+public class C{
+	A a;
 	public C(A a) {
-		constructA(a.a);
+		this.a = a;
 	}
 }

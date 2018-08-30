@@ -13,7 +13,7 @@ public class KalmanFilterDropSensorTest extends KFTestFilterTest<ArrayList<Doubl
 	private static final long serialVersionUID = 228402347124222017L;
 	
 	public static void main(String[] args) throws IOException {
-		//used as a space holder
+		//used as a space holder for time
 		double t = 0;
 		for(int i = 0; i < 1; i++) {
 			KalmanFilterDropSensorTest chart = new KalmanFilterDropSensorTest("Kalman PVA Test", "Kalman PVA", 

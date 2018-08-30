@@ -1,10 +1,10 @@
-import org.ejml.simple.SimpleMatrix;
-
 public class BooleanTest {
-	public static void main(String[] args) {
-		SimpleMatrix s = new SimpleMatrix(new double[][] {{1,2,3}, {4,5,6}, {7,8,9}});
-		s.print();
-		s = s.extractMatrix(0, 2, 0, 2);
-		s.print();
+	public static void main(String[] args) throws InstantiationException, IllegalAccessException {
+		C c;
+		c = new C(BooleanTest.get(B.class, "Name"));
+		
+	}
+	public static <T> T get(Class<T> clazz, String name) throws InstantiationException, IllegalAccessException {
+		return clazz.newInstance();
 	}
 }

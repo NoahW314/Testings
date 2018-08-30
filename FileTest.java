@@ -3,30 +3,32 @@ public class FileTest {
 
 	public static void main(String[] args) {
 		
-		DataLogger logger = new DataLogger("2A2P");
+		DataLogger logger = new DataLogger("Accel");
 
 		logger.addField("Time");
 		logger.addField("accel1x");
 		logger.addField("accel1y");
 		logger.addField("accel1z");
-		logger.addField("accel2x");
+		logger.addField("heading");
+		/*logger.addField("accel2x");
 		logger.addField("accel2y");
 		logger.addField("accel2z");
 		logger.addField("Encoder");
 		logger.addField("Vuforia");
-		logger.addField("Ultrasonic");
+		logger.addField("Ultrasonic");*/
 		logger.newLine();
 		
-		double velo = 0;
+		/*double velo = 0;
 		double eP = 0;
 		double vP = 0;
-		double uP = 0;
+		double uP = 0;*/
 		for(int i = 0; i < 80; i++) {
-			logger.addField(1);
+			logger.addField(i);
 			logger.addField(Math.round(Math.random()*50+50-Math.pow((i*5-200), 2)/300));
 			logger.addField(Math.round(Math.random()*50+50-Math.pow((i*5-200), 2)/300));
 			logger.addField(Math.round(Math.random()*50+50-Math.pow((i*5-200), 2)/300));
-			logger.addField(Math.round(Math.random()*50+50-Math.pow((i*5-200), 2)/300));
+			logger.addField(Math.round(Math.random()*360));
+			/*logger.addField(Math.round(Math.random()*50+50-Math.pow((i*5-200), 2)/300));
 			logger.addField(Math.round(Math.random()*50+50-Math.pow((i*5-200), 2)/300));
 			logger.addField(Math.round(Math.random()*50+50-Math.pow((i*5-200), 2)/300));
 			eP = velo+Math.random()*2500-1250;
@@ -36,15 +38,7 @@ public class FileTest {
 			velo+=75-Math.pow((i*5-200), 2)/300;
 			logger.addField(eP);
 			logger.addField(vP);
-			logger.addField(uP);
-			/*logger.addField(Math.round(Math.random()*50));
-			logger.addField(Math.round(Math.random()*50));
-			logger.addField(Math.round(Math.random()*50));
-			logger.addField(Math.round(Math.random()*50));
-			logger.addField(Math.round(Math.random()*50));
-			logger.addField(Math.round(Math.random()*50));
-			velo+=25;
-			logger.addField(velo);*/
+			logger.addField(uP);*/
 			logger.newLine();
 		}
 		logger.closeDataLogger();
