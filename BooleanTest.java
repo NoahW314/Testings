@@ -1,10 +1,13 @@
+
+
 public class BooleanTest {
-	public static void main(String[] args) throws InstantiationException, IllegalAccessException {
-		C c;
-		c = new C(BooleanTest.get(B.class, "Name"));
-		
-	}
-	public static <T> T get(Class<T> clazz, String name) throws InstantiationException, IllegalAccessException {
-		return clazz.newInstance();
+	
+	public static void main(String[] args){
+		CollectionTest test = new CollectionTest();
+		int[] arr = test.getArr();
+		arr[1] = 0;
+		test.printArr();
+		int[] a = test.getArr();
+		System.out.println(a[0]+" "+a[1]+" "+a[2]);
 	}
 }
